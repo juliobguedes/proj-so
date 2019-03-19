@@ -510,6 +510,7 @@ int getPriority(int pid) {
     }
   }
   release(&ptable.lock);
+  cprintf("PID %d\t PRIORITY %d\n", pid, priority);
   return priority;
 }
 
@@ -528,11 +529,21 @@ int setPriority(int pid, int priority) {
     }
   }
   release(&ptable.lock);
+  cprintf("PID %d\t PRIORITY %d WAS REPLACED BY %d\n", pid, past_priority, priority);
   return past_priority;
 }
 
 void cps(void) {
-  cprintf("ps foi chamado\n");
+  struct proc *p;
+  cprintf("NAME\tPID\tPRIORITY\tSTATE\n");
+
+  acquire(&ptable.lock);
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->pid != 0) {
+      cprintf("%s\t%d\t%d\t%d\n", p->name, p->pid, p->priority, p->state);
+    }
+  }
+  release(&ptable.lock);
 }
 
 //PAGEBREAK: 36
