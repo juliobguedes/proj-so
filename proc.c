@@ -88,6 +88,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->priority = 0;
 
   release(&ptable.lock);
 
@@ -496,25 +497,38 @@ kill(int pid)
   return -1;
 }
 
-/**
-
-*/
+// Retrieves the process' priority by finding the process
+// in the process table using its pid
 int getPriority(int pid) {
   struct proc *p;
 
   acquire(&ptable.lock);
+  int priority = -1;
   for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
     if (p->pid == pid) {
-      
+      priority = p->priority;
     }
   }
+  release(&ptable.lock);
+  return priority;
 }
 
-/**
-
-*/
+// Sets the process' priority by finding the process in the
+// process table by its ID, saving the previous priority to
+// return, and replacing the priority with the new value
 int setPriority(int pid, int priority) {
+  struct proc *p;
 
+  acquire(&ptable.lock);
+  int past_priority = -1;
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->pid == pid) {
+      past_priority = p->priority;
+      p->priority = priority;
+    }
+  }
+  release(&ptable.lock);
+  return past_priority;
 }
 
 //PAGEBREAK: 36
