@@ -3,7 +3,7 @@
 #include "user.h"
 #include "fcntl.h"
 
-int ps(void) {
-    cps();
+int main(void) {
+    ps();
     exit();
 }

@@ -105,7 +105,8 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_setPriority(void);
 extern int sys_getPriority(void);
-extern int sys_cps(void);
+extern int sys_ps(void);
+extern int sys_getUsage(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -131,16 +132,18 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_setPriority] sys_setPriority,
 [SYS_getPriority] sys_getPriority,
-[SYS_cps] sys_cps,
+[SYS_ps] sys_ps,
+[SYS_getUsage] sys_getUsage,
 };
 
-char syscalls_name[24][15] = { "fork", "exit", "wait", "pipe", "read", "kill", "exec", "fstat", "chdir", "dup", "getpid", "sbrk", "sleep", "uptime", "open", "write", "mknod", "unlink", "link", "mkdir", "close", "setPriority", "getPriority", "cps" };
+char syscalls_name[25][15] = { "fork", "exit", "wait", "pipe", "read", "kill", "exec", "fstat", "chdir", "dup", "getpid", "sbrk", "sleep", "uptime", "open", "write", "mknod", "unlink", "link", "mkdir", "close", "setPriority", "getPriority", "ps", "getUsage" };
 
 void
 syscall(void)
 {
   int num;
   struct proc *curproc = myproc();
+  curproc->usage = curproc->usage + 1;
 
   num = curproc->tf->eax;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {

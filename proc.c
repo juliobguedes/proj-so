@@ -89,6 +89,7 @@ found:
   p->state = EMBRYO;
   p->pid = nextpid++;
   p->priority = 0;
+  p->usage = 0;
 
   release(&ptable.lock);
 
@@ -533,7 +534,7 @@ int setPriority(int pid, int priority) {
   return past_priority;
 }
 
-void cps(void) {
+void ps(void) {
   struct proc *p;
   cprintf("NAME\tPID\tPRIORITY\tSTATE\n");
 
@@ -544,6 +545,22 @@ void cps(void) {
     }
   }
   release(&ptable.lock);
+}
+
+int getUsage(int pid) {
+  struct proc *p;
+
+  acquire(&ptable.lock);
+
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->pid == pid) {
+      cprintf("PID %d\tUSAGE %d\n", p->pid, p->usage);
+      break;
+    }
+  }
+
+  release(&ptable.lock);
+  return 25;
 }
 
 //PAGEBREAK: 36

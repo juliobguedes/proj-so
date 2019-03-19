@@ -169,6 +169,8 @@ UPROGS=\
 	_cat\
 	_echo\
 	_forktest\
+	_getPriority\
+	_getUsage\
 	_grep\
 	_init\
 	_kill\
@@ -178,11 +180,10 @@ UPROGS=\
 	_ps\
 	_rm\
 	_sh\
+	_setPriority\
 	_stressfs\
 	_usertests\
 	_wc\
-	_getPriority\
-	_setPriority\
 	_zombie\
 
 fs.img: mkfs README $(UPROGS)
@@ -251,8 +252,8 @@ qemu-nox-gdb: fs.img xv6.img .gdbinit
 # check in that version.
 
 EXTRA=\
-	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c\
-	ln.c ls.c mkdir.c rm.c stressfs.c usertests.c wc.c getPriority.c setPriority.c zombie.c\
+	mkfs.c ulib.c user.h cat.c echo.c forktest.c getPriority.c getUsage.c grep.c kill.c\
+	ln.c ls.c mkdir.c rm.c setPriority.c stressfs.c usertests.c wc.c zombie.c\
 	printf.c umalloc.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
