@@ -531,6 +531,10 @@ int setPriority(int pid, int priority) {
   return past_priority;
 }
 
+void cps(void) {
+  cprintf("ps foi chamado\n");
+}
+
 //PAGEBREAK: 36
 // Print a process listing to console.  For debugging.
 // Runs when user types ^P on console.

@@ -25,6 +25,7 @@ int sleep(int);
 int uptime(void);
 int getPriority(int);
 int setPriority(int, int);
+void cps(void);
 
 // ulib.c
 int stat(const char*, struct stat*);

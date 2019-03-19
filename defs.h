@@ -103,19 +103,20 @@ int             pipewrite(struct pipe*, char*, int);
 
 //PAGEBREAK: 16
 // proc.c
+void            cps(void);
 int             cpuid(void);
 void            exit(void);
 int             fork(void);
+int             getPriority(int);
 int             growproc(int);
 int             kill(int);
-int             getPriority(int);
-int             setPriority(int, int);
 struct cpu*     mycpu(void);
 struct proc*    myproc();
 void            pinit(void);
 void            procdump(void);
 void            scheduler(void) __attribute__((noreturn));
 void            sched(void);
+int             setPriority(int, int);
 void            setproc(struct proc*);
 void            sleep(void*, struct spinlock*);
 void            userinit(void);

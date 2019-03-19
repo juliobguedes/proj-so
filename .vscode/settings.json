@@ -3,6 +3,9 @@
         "types.h": "c",
         "x86.h": "c",
         "memlayout.h": "c",
-        "defs.h": "c"
+        "defs.h": "c",
+        "stat.h": "c",
+        "user.h": "c",
+        "fcntl.h": "c"
     }
 }

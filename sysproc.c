@@ -55,6 +55,11 @@ int sys_setPriority(void) {
   return setPriority(pid, priority);
 }
 
+int sys_cps(void) {
+  cps();
+  return 24;
+}
+
 int
 sys_getpid(void)
 {

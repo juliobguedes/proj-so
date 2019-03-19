@@ -105,6 +105,7 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_setPriority(void);
 extern int sys_getPriority(void);
+extern int sys_cps(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -130,9 +131,10 @@ static int (*syscalls[])(void) = {
 [SYS_close]   sys_close,
 [SYS_setPriority] sys_setPriority,
 [SYS_getPriority] sys_getPriority,
+[SYS_cps] sys_cps,
 };
 
-char syscalls_name[23][15] = { "fork", "exit", "wait", "pipe", "read", "kill", "exec", "fstat", "chdir", "dup", "getpid", "sbrk", "sleep", "uptime", "open", "write", "mknod", "unlink", "link", "mkdir", "close", "setPriority", "getPriority" };
+char syscalls_name[24][15] = { "fork", "exit", "wait", "pipe", "read", "kill", "exec", "fstat", "chdir", "dup", "getpid", "sbrk", "sleep", "uptime", "open", "write", "mknod", "unlink", "link", "mkdir", "close", "setPriority", "getPriority", "cps" };
 
 void
 syscall(void)
