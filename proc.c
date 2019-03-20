@@ -563,6 +563,23 @@ int getUsage(int pid) {
   return 25;
 }
 
+void killRandom() {
+  struct proc *p;
+  int killed_pid = -1;
+
+  acquire(&ptable.lock);
+
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->usage > 13 && p->pid != 0 && p->pid != 1 && p->pid != 2) {
+      cprintf("HERE AM I");
+      killed_pid = p->pid;
+      break;
+    }
+  }
+  release(&ptable.lock);
+  kill(killed_pid);
+}
+
 //PAGEBREAK: 36
 // Print a process listing to console.  For debugging.
 // Runs when user types ^P on console.

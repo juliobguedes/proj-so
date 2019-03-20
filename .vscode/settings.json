@@ -7,6 +7,9 @@
         "stat.h": "c",
         "user.h": "c",
         "fcntl.h": "c",
-        "date.h": "c"
+        "date.h": "c",
+        "proc.h": "c",
+        "mmu.h": "c",
+        "param.h": "c"
     }
 }

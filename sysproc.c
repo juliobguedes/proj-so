@@ -68,6 +68,11 @@ int sys_getUsage(void) {
   return getUsage(pid);
 }
 
+int sys_killRandom(void) {
+  killRandom();
+  return 26;
+}
+
 int
 sys_getpid(void)
 {

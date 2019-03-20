@@ -24,3 +24,4 @@
 #define SYS_getPriority 23
 #define SYS_ps 24
 #define SYS_getUsage 25
+#define SYS_killRandom 26

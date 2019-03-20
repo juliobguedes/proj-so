@@ -110,6 +110,7 @@ int             getPriority(int);
 int             getUsage(int);
 int             growproc(int);
 int             kill(int);
+void            killRandom(void);
 struct cpu*     mycpu(void);
 struct proc*    myproc();
 void            pinit(void);
