@@ -571,7 +571,7 @@ void killRandom() {
 
   for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
     if (p->usage > 13 && p->pid != 0 && p->pid != 1 && p->pid != 2) {
-      cprintf("HERE AM I");
+      cprintf("HERE AM I\n");
       killed_pid = p->pid;
       break;
     }
