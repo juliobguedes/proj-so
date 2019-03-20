@@ -145,7 +145,6 @@ syscall(void)
 {
   int num;
   struct proc *curproc = myproc();
-  curproc->usage = curproc->usage + 1;
 
   num = curproc->tf->eax;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
