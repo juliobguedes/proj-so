@@ -88,6 +88,8 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->priority = 0;
+  p->usage = 0;
 
   release(&ptable.lock);
 
@@ -376,6 +378,7 @@ sched(void)
     panic("sched running");
   if(readeflags()&FL_IF)
     panic("sched interruptible");
+  p->usage++;
   intena = mycpu()->intena;
   swtch(&p->context, mycpu()->scheduler);
   mycpu()->intena = intena;
@@ -496,25 +499,86 @@ kill(int pid)
   return -1;
 }
 
-/**
-
-*/
+// Retrieves the process' priority by finding the process
+// in the process table using its pid
 int getPriority(int pid) {
   struct proc *p;
 
   acquire(&ptable.lock);
+  int priority = -1;
   for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
     if (p->pid == pid) {
-      
+      priority = p->priority;
     }
   }
+  release(&ptable.lock);
+  cprintf("PID %d\t PRIORITY %d\n", pid, priority);
+  return priority;
 }
 
-/**
-
-*/
+// Sets the process' priority by finding the process in the
+// process table by its ID, saving the previous priority to
+// return, and replacing the priority with the new value
 int setPriority(int pid, int priority) {
+  struct proc *p;
 
+  acquire(&ptable.lock);
+  int past_priority = -1;
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->pid == pid) {
+      past_priority = p->priority;
+      p->priority = priority;
+    }
+  }
+  release(&ptable.lock);
+  cprintf("PID %d\t PRIORITY %d WAS REPLACED BY %d\n", pid, past_priority, priority);
+  return past_priority;
+}
+
+void ps(void) {
+  struct proc *p;
+  cprintf("NAME\tPID\tPRIORITY\tSTATE\n");
+
+  acquire(&ptable.lock);
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->pid != 0) {
+      cprintf("%s\t%d\t%d\t%d\n", p->name, p->pid, p->priority, p->state);
+    }
+  }
+  release(&ptable.lock);
+}
+
+int getUsage(int pid) {
+  struct proc *p;
+
+  acquire(&ptable.lock);
+
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->pid == pid) {
+      cprintf("PID %d\tUSAGE %d\n", p->pid, p->usage);
+      break;
+    }
+  }
+
+  release(&ptable.lock);
+  return 25;
+}
+
+void killRandom() {
+  struct proc *p;
+  int killed_pid = -1;
+
+  acquire(&ptable.lock);
+
+  for (p = ptable.proc; p < &ptable.proc[NPROC]; p++) {
+    if (p->usage > 13 && p->pid != 0 && p->pid != 1 && p->pid != 2) {
+      cprintf("HERE AM I\n");
+      killed_pid = p->pid;
+      break;
+    }
+  }
+  release(&ptable.lock);
+  kill(killed_pid);
 }
 
 //PAGEBREAK: 36
